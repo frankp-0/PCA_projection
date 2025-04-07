@@ -145,15 +145,19 @@ task findRelated {
 			exponent <- c(5,7,9,11,13)[~{degree}]; \
 			thresh <- 2^(-exponent/2); \
 			kinobj <- kingToMatrix('~{king_file}', estimator='~{estimator}', thresh=thresh); \
-			part <- pcairPartition(kinobj, kin.thresh=thresh); \
-			rels <- part[['rels']]; \
+			if (all(kinobj[upper.tri(kinobj)] > thresh)) { \
+				rels <- rownames(kinobj)[2:nrow(kinobj)]; \
+			} else { \
+				part <- pcairPartition(kinobj, kin.thresh=thresh); \
+				rels <- part[['rels']]; \
+			}; \
 			readr::write_tsv(tibble::tibble(FID=rels, IID=rels), 'related_samples.txt', col_names=FALSE); \
 			writeLines('true', 'has_relatives.txt'); \
 		} else { \
 			message('No related samples found'); \
 			writeLines(' ', 'related_samples.txt'); \
 			writeLines('false', 'has_relatives.txt'); \
-		} \
+		}; \
 		"
 	>>>
 

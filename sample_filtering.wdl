@@ -140,17 +140,26 @@ task findRelated {
 	command <<<
 		Rscript -e "\
 		library(GENESIS); \
-		exponent <- c(5,7,9,11,13)[~{degree}]; \
-		thresh <- 2^(-exponent/2); \
-		kinobj <- kingToMatrix('~{king_file}', estimator='~{estimator}', thresh=thresh); \
-		part <- pcairPartition(kinobj, kin.thresh=thresh); \
-		rels <- part[['rels']]; \
-		readr::write_tsv(tibble::tibble(FID=rels, IID=rels), 'related_samples.txt', col_names=FALSE); \
+		chk <- readr::read_tsv('~{king_file}', n_max=10); \
+		if (nrow(chk) > 0) { \
+			exponent <- c(5,7,9,11,13)[~{degree}]; \
+			thresh <- 2^(-exponent/2); \
+			kinobj <- kingToMatrix('~{king_file}', estimator='~{estimator}', thresh=thresh); \
+			part <- pcairPartition(kinobj, kin.thresh=thresh); \
+			rels <- part[['rels']]; \
+			readr::write_tsv(tibble::tibble(FID=rels, IID=rels), 'related_samples.txt', col_names=FALSE); \
+			writeLines('true', 'has_relatives.txt'); \
+		} else { \
+			message('No related samples found'); \
+			writeLines(' ', 'related_samples.txt'); \
+			writeLines('false', 'has_relatives.txt'); \
+		} \
 		"
 	>>>
 
 	output {
 		File related_samples = "related_samples.txt"
+		Boolean has_relatives = read_boolean("has_relatives.txt")
 	}
 
 	runtime {

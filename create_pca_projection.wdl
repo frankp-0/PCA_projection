@@ -109,13 +109,15 @@ workflow create_pca_projection {
 				degree = kinship_degree_filter
 		}
 
-		call sample_tasks.removeSamples {
-			input:
-				bed = merged_bed,
-				bim = merged_bim,
-				fam = merged_fam,
-				samples_to_remove = findRelated.related_samples,
-				suffix = "unrel"
+		if (findRelated.has_relatives) {
+			call sample_tasks.removeSamples {
+				input:
+					bed = merged_bed,
+					bim = merged_bim,
+					fam = merged_fam,
+					samples_to_remove = findRelated.related_samples,
+					suffix = "unrel"
+			}
 		}
 	}
 

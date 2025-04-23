@@ -43,7 +43,7 @@ task mergeFiles {
 		set -e -o pipefail
 		
 		# merge plink files
-		cat ~{write_lines(bed)} | sed 's/.bed//' > bfile.txt
+		cat ~{write_lines(bed)} | sed 's/\.bed$//' > bfile.txt
 		plink2 --pmerge-list bfile.txt bfile \
 			--merge-max-allele-ct 2 \
 			--out tmp

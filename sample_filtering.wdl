@@ -71,7 +71,7 @@ task king_ibdseg {
         library(dplyr); \
         library(readr); \
         kin <- read_tsv('~{basename}.seg'); \
-        kin <- mutate(kin, IBD0=(1 - IBD1Seg - IBD2Seg), Kinship=0.5*PropIBD); \
+        if (nrow(kin) > 0) kin <- mutate(kin, IBD0=(1 - IBD1Seg - IBD2Seg), Kinship=0.5*PropIBD); \
         write_tsv(kin, '~{basename}.kin0'); \
         "
     >>>

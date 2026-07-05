@@ -27,7 +27,7 @@ task subsetVariants {
 
 		#subset file with --extract extract.txt
 		plink2 \
-      --memory ~{mem_gb *  1024} \
+			--memory ~{mem_gb *  1024} \
 			~{prefix} ~{vcf} \
 			~{"--maf " + min_maf} \
 			~{if length(variant_files) > 0 then "--extract-intersect " else ""} ~{sep=" " variant_files} \

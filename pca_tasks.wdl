@@ -14,6 +14,7 @@ task make_pca_loadings {
 
 	command <<<
 		command="plink2 --pgen ~{pgen} --pvar ~{pvar} --psam ~{psam} \
+      --memory ~{mem_gb *  1024} \
 			--maf 0.000001 \
 			--freq counts \
 			--pca allele-wts \
@@ -60,6 +61,7 @@ task run_pca_projected {
 	command <<<
 		#https://www.cog-genomics.org/plink/2.0/score#pca_project
 		command="plink2 --pgen ~{pgen} --pvar ~{pvar} --psam ~{psam} \
+      --memory ~{mem_gb *  1024} \
 			--read-freq ~{freq_file} \
 			--score ~{loadings} ~{id_col} ~{allele_col} header-read no-mean-imputation variance-standardize \
 			--score-col-nums ~{pc_col_first}-~{pc_col_last} \

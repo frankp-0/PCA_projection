@@ -17,6 +17,7 @@ task removeRelateds {
     command <<<
         #identify individuals who are less related than kinship threshold
         command="plink2 --bed ~{bed} --bim ~{bim} --fam ~{fam} \
+        --memory ~{mem_gb *  1024} \
         --king-cutoff ~{max_kinship_coefficient} \
         --output-chr ~{output_chr} \
         --set-all-var-ids @:#:\$r:\$a \
@@ -59,6 +60,7 @@ task king_ibdseg {
         set -e -o pipefail
 
         plink --bed ~{bed} --bim ~{bim} --fam ~{fam} \
+            --memory ~{mem_gb *  1024} \
             --output-chr 26 \
             --make-bed --out tmp \
 

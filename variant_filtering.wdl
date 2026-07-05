@@ -27,7 +27,7 @@ task subsetVariants {
 
 		#subset file with --extract extract.txt
 		plink2 \
-			--memory ~{mem_gb *  1024} \
+			--memory ~{mem_gb *  512} \
 			~{prefix} ~{vcf} \
 			~{"--maf " + min_maf} \
 			~{if length(variant_files) > 0 then "--extract-intersect " else ""} ~{sep=" " variant_files} \
@@ -82,7 +82,7 @@ task pruneVars {
 		set -e -o pipefail
 
 		command="plink2 --bed ~{bed} --bim ~{bim} --fam ~{fam} \
-			--memory ~{mem_gb *  1024} \
+			--memory ~{mem_gb *  512} \
 			--rm-dup force-first \
 			--output-chr ~{output_chr} \
 			--set-all-var-ids @:#:\$r:\$a \
@@ -93,7 +93,7 @@ task pruneVars {
 
 		# extract pruned variants
 		command="plink2 --bed ~{bed} --bim ~{bim} --fam ~{fam} \
-			--memory ~{mem_gb *  1024} \
+			--memory ~{mem_gb *  512} \
 			--extract ~{basename}_indep.prune.in \
 			--output-chr ~{output_chr} \
 			--set-all-var-ids @:#:\$r:\$a \

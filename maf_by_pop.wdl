@@ -135,7 +135,7 @@ task maf_by_pop {
 
     command <<<
         plink2 ~{prefix} ~{vcf} \
-            --memory ~{mem_gb *  1024} \
+            --memory ~{mem_gb *  512} \
             --keep ~{samples} \
             --maf ~{min_maf} \
             --output-chr chrM \

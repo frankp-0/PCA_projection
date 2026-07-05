@@ -82,7 +82,7 @@ task pruneVars {
 		set -e -o pipefail
 
 		command="plink2 --bed ~{bed} --bim ~{bim} --fam ~{fam} \
-      --memory ~{mem_gb *  1024} \
+			--memory ~{mem_gb *  1024} \
 			--rm-dup force-first \
 			--output-chr ~{output_chr} \
 			--set-all-var-ids @:#:\$r:\$a \
@@ -93,7 +93,7 @@ task pruneVars {
 
 		# extract pruned variants
 		command="plink2 --bed ~{bed} --bim ~{bim} --fam ~{fam} \
-      --memory ~{mem_gb *  1024} \
+			--memory ~{mem_gb *  1024} \
 			--extract ~{basename}_indep.prune.in \
 			--output-chr ~{output_chr} \
 			--set-all-var-ids @:#:\$r:\$a \

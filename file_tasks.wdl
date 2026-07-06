@@ -45,9 +45,11 @@ task mergeFiles {
 		# merge plink files
 		cat ~{write_lines(bed)} | sed 's/\.bed$//' > bfile.txt
 		plink2 --pmerge-list bfile.txt bfile \
+			--memory ~{mem_gb *  512} \
 			--merge-max-allele-ct 2 \
 			--out tmp
 		plink2 --pfile tmp \
+			--memory ~{mem_gb *  512} \
 			--output-chr ~{output_chr} \
 			--set-all-var-ids @:#:\$r:\$a \
 			--make-bed --out merged \
